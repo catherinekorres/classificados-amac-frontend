@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Card from 'react-bootstrap/Card';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 
 import api from '../../services/api';
 
@@ -17,21 +17,14 @@ export default class Main extends Component {
 
   async componentDidMount() {
     try {
-      const { produtos } = this.state;
-
-      const response = await api.get(`/hello`);
-
-      const data = {
-        id: response.data.id,
-        nome: response.data.nome,
-        descricao: response.data.descricao,
-        preco: response.data.preco,
-      };
+      const response = await api.get(`/produtos`);
 
       console.log(response);
 
-      this.setState({
-        produtos: [...produtos, data],
+      response.data.forEach(produto => {
+        this.setState({
+          produtos: [...this.state.produtos, produto],
+        });
       });
     } catch (error) {
       alert(error);
@@ -42,22 +35,24 @@ export default class Main extends Component {
     const { produtos } = this.state;
 
     return (
-      <div className="container">
-        {produtos.map((produto, i) => (
-          <div key={i}>
-            <Card className="col-md-4 mt-5">
-              <Card.Body>
-                <Card.Title>{produto.nome}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  {formatter.format(produto.preco)}
-                </Card.Subtitle>
-                <Card.Text>{produto.descricao}</Card.Text>
-                <Card.Link href="#">Ver mais ></Card.Link>
-              </Card.Body>
-            </Card>
-          </div>
-        ))}
-      </div>
+      <Container>
+        <Row>
+          {produtos.map((produto, i) => (
+            <Col md={4} key={i}>
+              <Card className="mt-5">
+                <Card.Body>
+                  <Card.Title>{produto.nome}</Card.Title>
+                  <Card.Subtitle className="mb-2 text-muted">
+                    {formatter.format(produto.preco)}
+                  </Card.Subtitle>
+                  <Card.Text>{produto.descricao}</Card.Text>
+                  <Card.Link href="#">Ver mais ></Card.Link>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Container>
     );
   }
 }
