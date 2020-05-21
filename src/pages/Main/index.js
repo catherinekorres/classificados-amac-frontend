@@ -12,18 +12,19 @@ const formatter = new Intl.NumberFormat('pt-BR', {
 export default class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = { produtos: [] };
+    this.state = { products: [] };
   }
 
   async componentDidMount() {
     try {
-      const response = await api.get(`/produtos`);
+      const response = await api.get(`/products`);
 
       console.log(response);
 
-      response.data.forEach(produto => {
+      response.data.forEach(product => {
+        const { products } = this.state;
         this.setState({
-          produtos: [...this.state.produtos, produto],
+          products: [...products, product],
         });
       });
     } catch (error) {
@@ -32,20 +33,20 @@ export default class Main extends Component {
   }
 
   render() {
-    const { produtos } = this.state;
+    const { products } = this.state;
 
     return (
       <Container>
         <Row>
-          {produtos.map((produto, i) => (
+          {products.map((product, i) => (
             <Col md={4} key={i}>
               <Card className="mt-5">
                 <Card.Body>
-                  <Card.Title>{produto.nome}</Card.Title>
+                  <Card.Title>{product.name}</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">
-                    {formatter.format(produto.preco)}
+                    {formatter.format(product.price)}
                   </Card.Subtitle>
-                  <Card.Text>{produto.descricao}</Card.Text>
+                  <Card.Text>{product.description}</Card.Text>
                   <Card.Link href="#">Ver mais ></Card.Link>
                 </Card.Body>
               </Card>
