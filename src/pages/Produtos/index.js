@@ -17,35 +17,56 @@ const formatter = new Intl.NumberFormat('pt-BR', {
 export default class Produtos extends Component {
   constructor(props) {
     super(props);
-    this.state = { products: [] };
+    this.state = { products: [], currentPage: 0, totalPages: null };
+    this.myRef = React.createRef();
   }
 
   async componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
-    this.getProducts();
+    this.getProducts(0);
   }
 
-  getProducts = async () => {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.currentPage !== this.state.currentPage) {
+      this.getProducts(this.state.currentPage);
+      window.scrollTo(0, this.myRef.current.offsetTop);
+    }
+  }
+
+  getProducts = async page => {
+    this.setState({ products: [] });
     try {
-      const response = await api.get(`/products/page/0`);
+      const response = await api.get(`/products/page/${page}`);
 
       console.log(response);
 
       response.data.content.forEach(product => {
-        const { products } = this.state;
         this.setState({
-          products: [...products, product],
+          products: [...this.state.products, product],
         });
       });
+
+      this.setState({ totalPages: response.data.totalPages });
     } catch (error) {
       alert(error);
     }
   };
 
+  handlePageClick = (e, index) => {
+    e.preventDefault();
+
+    this.setState(
+      {
+        currentPage: index,
+      },
+      console.log(this.state.currentPage)
+    );
+  };
+
   render() {
-    const { products } = this.state;
+    const { products, currentPage, totalPages } = this.state;
 
     return (
       <>
@@ -53,7 +74,7 @@ export default class Produtos extends Component {
         <main ref="main">
           <Hero />
 
-          <Container className="py-5">
+          <Container className="py-5" ref={this.myRef}>
             <Row className="mt-5 mb-3 pb-3">
               <Col sm={12}>
                 <h2 className="display-3 mb-5">Produtos</h2>
@@ -62,6 +83,7 @@ export default class Produtos extends Component {
                 <Col md={3} key={i}>
                   <Card className="my-3">
                     <Card.Body>
+                      {product.id}
                       <Card.Title>{product.name}</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
                         {formatter.format(product.price)}
@@ -73,7 +95,11 @@ export default class Produtos extends Component {
                 </Col>
               ))}
             </Row>
-            <Pagination />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              handlePageClick={this.handlePageClick}
+            />
           </Container>
         </main>
         <Footer />
