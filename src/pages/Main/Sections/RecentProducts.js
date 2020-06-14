@@ -47,7 +47,7 @@ export default class RecentProducts extends Component {
           </Col>
           {products.map((product, i) => (
             <Col md={3} key={i}>
-              <Card className="m-5">
+              <Card className="mt-5">
                 <Card.Body>
                   <Card.Title>{product.name}</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">
