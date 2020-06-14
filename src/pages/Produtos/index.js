@@ -83,7 +83,6 @@ export default class Produtos extends Component {
                 <Col md={3} key={i}>
                   <Card className="my-3">
                     <Card.Body>
-                      {product.id}
                       <Card.Title>{product.name}</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
                         {formatter.format(product.price)}

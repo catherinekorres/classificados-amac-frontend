@@ -78,7 +78,6 @@ export default class Servicos extends Component {
                 <Col md={3} key={i}>
                   <Card className="my-3">
                     <Card.Body>
-                      {service.id}
                       <Card.Title>{service.name}</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
                         {service.investment}
