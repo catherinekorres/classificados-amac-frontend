@@ -59,32 +59,6 @@ function Hero() {
                   <p className="lead text-white">
                     Produtos de qualidade de pessoas em Foz do Iguaçu, Paraná.
                   </p>
-                  <div className="btn-wrapper mt-5">
-                    {/* <Button
-                      className="btn-white btn-icon mb-3 mb-sm-0"
-                      color="default"
-                      href="https://www.creative-tim.com/product/argon-design-system-react?ref=adsr-landing-page"
-                      size="lg"
-                    >
-                      <span className="btn-inner--icon mr-1">
-                        <i className="ni ni-cloud-download-95" />
-                      </span>
-                      <span className="btn-inner--text">Download React</span>
-                    </Button>{' '} */}
-                    <Button
-                      className="btn-icon mb-3 mb-sm-0"
-                      color="github"
-                      href="#"
-                      size="lg"
-                    >
-                      {/* <span className="btn-inner--icon mr-1">
-                        <i className="fa fa-github" />
-                      </span> */}
-                      <span className="btn-inner--text">
-                        Cadastre seu produto
-                      </span>
-                    </Button>
-                  </div>
                 </Col>
               </Row>
             </div>
