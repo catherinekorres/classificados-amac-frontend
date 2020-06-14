@@ -74,9 +74,8 @@ function Hero() {
                     <Button
                       className="btn-icon mb-3 mb-sm-0"
                       color="github"
-                      href="https://github.com/creativetimofficial/argon-design-system-react"
+                      href="#"
                       size="lg"
-                      target="_blank"
                     >
                       {/* <span className="btn-inner--icon mr-1">
                         <i className="fa fa-github" />
