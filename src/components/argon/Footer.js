@@ -131,7 +131,6 @@ class SimpleFooter extends React.Component {
                   <NavItem>
                     <NavLink
                       href="/produtos"
-                      target="_blank"
                     >
                       Produtos
                     </NavLink>
@@ -139,7 +138,6 @@ class SimpleFooter extends React.Component {
                   <NavItem>
                     <NavLink
                       href="/servicos"
-                      target="_blank"
                     >
                       Serviços
                     </NavLink>
@@ -147,7 +145,6 @@ class SimpleFooter extends React.Component {
                   <NavItem>
                     <NavLink
                       href="/contato"
-                      target="_blank"
                     >
                       Contato
                     </NavLink>
