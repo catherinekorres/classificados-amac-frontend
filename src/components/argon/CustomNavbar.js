@@ -149,6 +149,22 @@ class CustomNavbar extends React.Component {
                     <NavLink
                       className="nav-link-icon"
                       href="#"
+                      id="tooltip356693867"
+                      target="_blank"
+                    >
+                      <i className="fa fa-whatsapp" />
+                      <span className="nav-link-inner--text d-lg-none ml-2">
+                        Whatsapp
+                      </span>
+                    </NavLink>
+                    <UncontrolledTooltip delay={0} target="tooltip356693867">
+                      Compartilhe no Whatsapp
+                    </UncontrolledTooltip>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink
+                      className="nav-link-icon"
+                      href="#"
                       id="tooltip333589074"
                       target="_blank"
                     >
@@ -161,22 +177,7 @@ class CustomNavbar extends React.Component {
                       Compartilhe no Facebook
                     </UncontrolledTooltip>
                   </NavItem>
-                  <NavItem>
-                    <NavLink
-                      className="nav-link-icon"
-                      href="#"
-                      id="tooltip356693867"
-                      target="_blank"
-                    >
-                      <i className="fa fa-instagram" />
-                      <span className="nav-link-inner--text d-lg-none ml-2">
-                        Instagram
-                      </span>
-                    </NavLink>
-                    <UncontrolledTooltip delay={0} target="tooltip356693867">
-                      Compartilhe no Instagram
-                    </UncontrolledTooltip>
-                  </NavItem>
+
                   <NavItem>
                     <NavLink
                       className="nav-link-icon"
@@ -184,7 +185,7 @@ class CustomNavbar extends React.Component {
                       id="tooltip184698705"
                       target="_blank"
                     >
-                      <i className="fa fa-twitter-square" />
+                      <i className="fa fa-twitter" />
                       <span className="nav-link-inner--text d-lg-none ml-2">
                         Twitter
                       </span>
