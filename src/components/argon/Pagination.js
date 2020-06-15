@@ -25,7 +25,7 @@ class PaginationSection extends React.Component {
   render() {
     return (
       <>
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center py-4">
           <nav>
             <Pagination>
               <PaginationItem disabled={this.props.currentPage == 0}>
