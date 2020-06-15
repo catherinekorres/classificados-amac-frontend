@@ -49,12 +49,23 @@ export default class RecentProducts extends Component {
             <Col md={3} key={i}>
               <Card className="mt-5">
                 <Card.Body>
-                  <Card.Title>{product.name}</Card.Title>
-                  <Card.Subtitle className="mb-2 text-muted">
+                  <Card.Title className="font-weight-bold">
+                    {product.name}
+                  </Card.Title>
+                  <Card.Subtitle className="mb-2 text-success">
                     {formatter.format(product.price)}
                   </Card.Subtitle>
-                  <Card.Text>{product.description}</Card.Text>
-                  <Card.Link href="#">Detalhes ></Card.Link>
+                  <Card.Text className="text-muted">
+                    {product.description.length < 40
+                      ? `${product.description}`
+                      : `${product.description.substr(0, 40)}...`}
+                  </Card.Text>
+                  <Card.Link
+                    href={`/produtos/${product.id}`}
+                    className="font-weight-bold"
+                  >
+                    Detalhes <i className="fa fa-arrow-right pl-2" />
+                  </Card.Link>
                 </Card.Body>
               </Card>
             </Col>

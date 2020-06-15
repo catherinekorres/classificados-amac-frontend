@@ -44,12 +44,23 @@ export default class RecentServices extends Component {
             <Col md={3} key={i}>
               <Card className="mt-5">
                 <Card.Body>
-                  <Card.Title>{service.name}</Card.Title>
-                  <Card.Subtitle className="mb-2 text-muted">
+                  <Card.Title className="font-weight-bold">
+                    {service.name}
+                  </Card.Title>
+                  <Card.Subtitle className="mb-2 text-success">
                     {service.investment}
                   </Card.Subtitle>
-                  <Card.Text>{service.description}</Card.Text>
-                  <Card.Link href="#">Detalhes ></Card.Link>
+                  <Card.Text className="text-muted">
+                    {service.description.length < 40
+                      ? `${service.description}`
+                      : `${service.description.substr(0, 40)}...`}
+                  </Card.Text>
+                  <Card.Link
+                    href={`/servicos/${service.id}`}
+                    className="font-weight-bold"
+                  >
+                    Detalhes <i className="fa fa-arrow-right pl-2" />
+                  </Card.Link>
                 </Card.Body>
               </Card>
             </Col>

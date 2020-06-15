@@ -69,7 +69,7 @@ export default class Servicos extends Component {
         <main ref="main">
           <Hero />
 
-          <Container className="py-5" ref={this.myRef}>
+          <Container ref={this.myRef}>
             <Row className="mt-5 mb-3 pb-3">
               <Col sm={12}>
                 <h2 className="display-3 mb-5">Serviços</h2>
@@ -78,12 +78,23 @@ export default class Servicos extends Component {
                 <Col md={3} key={i}>
                   <Card className="my-3">
                     <Card.Body>
-                      <Card.Title>{service.name}</Card.Title>
-                      <Card.Subtitle className="mb-2 text-muted">
+                      <Card.Title className="font-weight-bold">
+                        {service.name}
+                      </Card.Title>
+                      <Card.Subtitle className="mb-2 text-success">
                         {service.investment}
                       </Card.Subtitle>
-                      <Card.Text>{service.description}</Card.Text>
-                      <Card.Link href="#">Detalhes ></Card.Link>
+                      <Card.Text className="text-muted">
+                        {service.description.length < 40
+                          ? `${service.description}`
+                          : `${service.description.substr(0, 40)}...`}
+                      </Card.Text>
+                      <Card.Link
+                        href={`/servicos/${service.id}`}
+                        className="font-weight-bold"
+                      >
+                        Detalhes <i className="fa fa-arrow-right pl-2" />
+                      </Card.Link>
                     </Card.Body>
                   </Card>
                 </Col>

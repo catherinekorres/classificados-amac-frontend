@@ -74,21 +74,37 @@ export default class Produtos extends Component {
         <main ref="main">
           <Hero />
 
-          <Container className="py-5" ref={this.myRef}>
-            <Row className="mt-5 mb-3 pb-3">
+          <Container ref={this.myRef}>
+            <Row className="mt-5">
               <Col sm={12}>
                 <h2 className="display-3 mb-5">Produtos</h2>
               </Col>
+            </Row>
+          </Container>
+
+          <Container>
+            <Row>
               {products.map((product, i) => (
                 <Col md={3} key={i}>
                   <Card className="my-3">
                     <Card.Body>
-                      <Card.Title>{product.name}</Card.Title>
-                      <Card.Subtitle className="mb-2 text-muted">
+                      <Card.Title className="font-weight-bold">
+                        {product.name}
+                      </Card.Title>
+                      <Card.Subtitle className="mb-2 text-success">
                         {formatter.format(product.price)}
                       </Card.Subtitle>
-                      <Card.Text>{product.description}</Card.Text>
-                      <Card.Link href="#">Detalhes ></Card.Link>
+                      <Card.Text className="text-muted">
+                        {product.description.length < 40
+                          ? `${product.description}`
+                          : `${product.description.substr(0, 40)}...`}
+                      </Card.Text>
+                      <Card.Link
+                        href={`/produtos/${product.id}`}
+                        className="font-weight-bold"
+                      >
+                        Detalhes <i className="fa fa-arrow-right pl-2" />
+                      </Card.Link>
                     </Card.Body>
                   </Card>
                 </Col>
