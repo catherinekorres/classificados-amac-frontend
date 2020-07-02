@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import Main from './pages/Main';
 import Produtos from './pages/Produtos';
@@ -9,6 +9,7 @@ import Servico from './pages/Servico';
 import Contato from './pages/Contato';
 import Login from './pages/Login';
 import Cadastro from './pages/Cadastro';
+import NotFound from './pages/NotFound';
 
 export default function Routes() {
   return (
@@ -22,6 +23,8 @@ export default function Routes() {
         <Route path="/contato" component={Contato} />
         <Route path="/login" component={Login} />
         <Route path="/cadastro" component={Cadastro} />
+        <Route path="/404" component={NotFound} />
+        <Redirect to="/404" />
       </Switch>
     </BrowserRouter>
   );
