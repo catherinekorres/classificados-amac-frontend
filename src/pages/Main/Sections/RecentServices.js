@@ -7,7 +7,7 @@ import api from '../../../services/api';
 export default class RecentServices extends Component {
   constructor(props) {
     super(props);
-    this.state = { services: [] };
+    this.state = { services: [], error: false };
   }
 
   async componentDidMount() {
@@ -27,12 +27,12 @@ export default class RecentServices extends Component {
         });
       });
     } catch (error) {
-      alert(error);
+      this.setState({ error: true });
     }
   };
 
   render() {
-    const { services } = this.state;
+    const { services, error } = this.state;
 
     return (
       <Container>
@@ -40,31 +40,35 @@ export default class RecentServices extends Component {
           <Col sm={12}>
             <h2 className="display-3 mb-0">Serviços recentes</h2>
           </Col>
-          {services.map((service, i) => (
-            <Col md={3} key={i}>
-              <Card className="mt-5">
-                <Card.Body>
-                  <Card.Title className="font-weight-bold">
-                    {service.name}
-                  </Card.Title>
-                  <Card.Subtitle className="mb-2 text-success">
-                    {service.investment}
-                  </Card.Subtitle>
-                  <Card.Text className="text-muted">
-                    {service.description.length < 40
-                      ? `${service.description}`
-                      : `${service.description.substr(0, 40)}...`}
-                  </Card.Text>
-                  <Card.Link
-                    href={`/servicos/${service.id}`}
-                    className="font-weight-bold"
-                  >
-                    Detalhes <i className="fa fa-arrow-right pl-2" />
-                  </Card.Link>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
+          {error ? (
+            <div className="py-5 px-3">Não foram encontrados serviços.</div>
+          ) : (
+            services.map((service, i) => (
+              <Col md={3} key={i}>
+                <Card className="mt-5">
+                  <Card.Body>
+                    <Card.Title className="font-weight-bold">
+                      {service.name}
+                    </Card.Title>
+                    <Card.Subtitle className="mb-2 text-success">
+                      {service.investment}
+                    </Card.Subtitle>
+                    <Card.Text className="text-muted">
+                      {service.description.length < 40
+                        ? `${service.description}`
+                        : `${service.description.substr(0, 40)}...`}
+                    </Card.Text>
+                    <Card.Link
+                      href={`/servicos/${service.id}`}
+                      className="font-weight-bold"
+                    >
+                      Detalhes <i className="fa fa-arrow-right pl-2" />
+                    </Card.Link>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))
+          )}
           <Col sm={12}>
             <Button
               className="btn-icon mt-4 mb-3 mb-sm-0"

@@ -12,7 +12,12 @@ import api from '../../services/api';
 export default class Servicos extends Component {
   constructor(props) {
     super(props);
-    this.state = { services: [], currentPage: 0, totalPages: null };
+    this.state = {
+      services: [],
+      currentPage: 0,
+      totalPages: null,
+      error: false,
+    };
     this.myRef = React.createRef();
   }
 
@@ -45,7 +50,7 @@ export default class Servicos extends Component {
 
       this.setState({ totalPages: response.data.totalPages });
     } catch (error) {
-      alert(error);
+      this.setState({ error: true });
     }
   };
 
@@ -61,7 +66,7 @@ export default class Servicos extends Component {
   };
 
   render() {
-    const { services, currentPage, totalPages } = this.state;
+    const { services, currentPage, totalPages, error } = this.state;
 
     return (
       <>
@@ -74,37 +79,54 @@ export default class Servicos extends Component {
               <Col sm={12}>
                 <h2 className="display-3 mb-5">Serviços</h2>
               </Col>
-              {services.map((service, i) => (
-                <Col md={3} key={i}>
-                  <Card className="my-3">
-                    <Card.Body>
-                      <Card.Title className="font-weight-bold">
-                        {service.name}
-                      </Card.Title>
-                      <Card.Subtitle className="mb-2 text-success">
-                        {service.investment}
-                      </Card.Subtitle>
-                      <Card.Text className="text-muted">
-                        {service.description.length < 40
-                          ? `${service.description}`
-                          : `${service.description.substr(0, 40)}...`}
-                      </Card.Text>
-                      <Card.Link
-                        href={`/servicos/${service.id}`}
-                        className="font-weight-bold"
-                      >
-                        Detalhes <i className="fa fa-arrow-right pl-2" />
-                      </Card.Link>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              ))}
+              {error ? (
+                <div className="pb-5 mb-5 px-3 w-100">
+                  <h4
+                    style={{
+                      color: '#999',
+                      textAlign: 'center',
+                    }}
+                  >
+                    Não foram encontrados produtos
+                  </h4>
+                </div>
+              ) : (
+                services.map((service, i) => (
+                  <Col md={3} key={i}>
+                    <Card className="my-3">
+                      <Card.Body>
+                        <Card.Title className="font-weight-bold">
+                          {service.name}
+                        </Card.Title>
+                        <Card.Subtitle className="mb-2 text-success">
+                          {service.investment}
+                        </Card.Subtitle>
+                        <Card.Text className="text-muted">
+                          {service.description.length < 40
+                            ? `${service.description}`
+                            : `${service.description.substr(0, 40)}...`}
+                        </Card.Text>
+                        <Card.Link
+                          href={`/servicos/${service.id}`}
+                          className="font-weight-bold"
+                        >
+                          Detalhes <i className="fa fa-arrow-right pl-2" />
+                        </Card.Link>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))
+              )}
             </Row>
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              handlePageClick={this.handlePageClick}
-            />
+            {error ? (
+              ''
+            ) : (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                handlePageClick={this.handlePageClick}
+              />
+            )}
           </Container>
         </main>
         <Footer />

@@ -12,7 +12,10 @@ const formatter = new Intl.NumberFormat('pt-BR', {
 export default class RecentProducts extends Component {
   constructor(props) {
     super(props);
-    this.state = { products: [] };
+    this.state = {
+      products: [],
+      error: false,
+    };
   }
 
   async componentDidMount() {
@@ -32,12 +35,12 @@ export default class RecentProducts extends Component {
         });
       });
     } catch (error) {
-      alert(error);
+      this.setState({ error: true });
     }
   };
 
   render() {
-    const { products } = this.state;
+    const { products, error } = this.state;
 
     return (
       <Container className="pt-5">
@@ -45,31 +48,35 @@ export default class RecentProducts extends Component {
           <Col sm={12}>
             <h2 className="display-3 mb-0">Produtos recentes</h2>
           </Col>
-          {products.map((product, i) => (
-            <Col md={3} key={i}>
-              <Card className="mt-5">
-                <Card.Body>
-                  <Card.Title className="font-weight-bold">
-                    {product.name}
-                  </Card.Title>
-                  <Card.Subtitle className="mb-2 text-success">
-                    {formatter.format(product.price)}
-                  </Card.Subtitle>
-                  <Card.Text className="text-muted">
-                    {product.description.length < 40
-                      ? `${product.description}`
-                      : `${product.description.substr(0, 40)}...`}
-                  </Card.Text>
-                  <Card.Link
-                    href={`/produtos/${product.id}`}
-                    className="font-weight-bold"
-                  >
-                    Detalhes <i className="fa fa-arrow-right pl-2" />
-                  </Card.Link>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
+          {error ? (
+            <div className="py-5 px-3">Não foram encontrados produtos.</div>
+          ) : (
+            products.map((product, i) => (
+              <Col md={3} key={i}>
+                <Card className="mt-5">
+                  <Card.Body>
+                    <Card.Title className="font-weight-bold">
+                      {product.name}
+                    </Card.Title>
+                    <Card.Subtitle className="mb-2 text-success">
+                      {formatter.format(product.price)}
+                    </Card.Subtitle>
+                    <Card.Text className="text-muted">
+                      {product.description.length < 40
+                        ? `${product.description}`
+                        : `${product.description.substr(0, 40)}...`}
+                    </Card.Text>
+                    <Card.Link
+                      href={`/produtos/${product.id}`}
+                      className="font-weight-bold"
+                    >
+                      Detalhes <i className="fa fa-arrow-right pl-2" />
+                    </Card.Link>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))
+          )}
           <Col sm={12}>
             <Button
               className="btn-icon mt-4 mb-3 mb-sm-0"

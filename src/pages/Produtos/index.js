@@ -17,7 +17,12 @@ const formatter = new Intl.NumberFormat('pt-BR', {
 export default class Produtos extends Component {
   constructor(props) {
     super(props);
-    this.state = { products: [], currentPage: 0, totalPages: null };
+    this.state = {
+      products: [],
+      currentPage: 0,
+      totalPages: null,
+      error: false,
+    };
     this.myRef = React.createRef();
   }
 
@@ -50,7 +55,7 @@ export default class Produtos extends Component {
 
       this.setState({ totalPages: response.data.totalPages });
     } catch (error) {
-      alert(error);
+      this.setState({ error: true });
     }
   };
 
@@ -66,7 +71,7 @@ export default class Produtos extends Component {
   };
 
   render() {
-    const { products, currentPage, totalPages } = this.state;
+    const { products, currentPage, totalPages, error } = this.state;
 
     return (
       <>
@@ -84,37 +89,54 @@ export default class Produtos extends Component {
 
           <Container>
             <Row>
-              {products.map((product, i) => (
-                <Col md={3} key={i}>
-                  <Card className="my-3">
-                    <Card.Body>
-                      <Card.Title className="font-weight-bold">
-                        {product.name}
-                      </Card.Title>
-                      <Card.Subtitle className="mb-2 text-success">
-                        {formatter.format(product.price)}
-                      </Card.Subtitle>
-                      <Card.Text className="text-muted">
-                        {product.description.length < 40
-                          ? `${product.description}`
-                          : `${product.description.substr(0, 40)}...`}
-                      </Card.Text>
-                      <Card.Link
-                        href={`/produtos/${product.id}`}
-                        className="font-weight-bold"
-                      >
-                        Detalhes <i className="fa fa-arrow-right pl-2" />
-                      </Card.Link>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              ))}
+              {error ? (
+                <div className="pb-5 mb-5 px-3 w-100">
+                  <h4
+                    style={{
+                      color: '#999',
+                      textAlign: 'center',
+                    }}
+                  >
+                    Não foram encontrados produtos
+                  </h4>
+                </div>
+              ) : (
+                products.map((product, i) => (
+                  <Col md={3} key={i}>
+                    <Card className="my-3">
+                      <Card.Body>
+                        <Card.Title className="font-weight-bold">
+                          {product.name}
+                        </Card.Title>
+                        <Card.Subtitle className="mb-2 text-success">
+                          {formatter.format(product.price)}
+                        </Card.Subtitle>
+                        <Card.Text className="text-muted">
+                          {product.description.length < 40
+                            ? `${product.description}`
+                            : `${product.description.substr(0, 40)}...`}
+                        </Card.Text>
+                        <Card.Link
+                          href={`/produtos/${product.id}`}
+                          className="font-weight-bold"
+                        >
+                          Detalhes <i className="fa fa-arrow-right pl-2" />
+                        </Card.Link>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))
+              )}
             </Row>
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              handlePageClick={this.handlePageClick}
-            />
+            {error ? (
+              ''
+            ) : (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                handlePageClick={this.handlePageClick}
+              />
+            )}
           </Container>
         </main>
         <Footer />

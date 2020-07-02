@@ -6,8 +6,6 @@ import {
   FormGroup,
   Form,
   Input,
-  Card,
-  CardBody,
   Row,
   Col,
   Button,
@@ -17,12 +15,42 @@ import Hero from '../../components/argon/Hero';
 import CustomNavbar from '../../components/argon/CustomNavbar';
 import Footer from '../../components/argon/Footer';
 
+import api from '../../services/api';
+
 export default class Contato extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   async componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
   }
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  handleSubmit = async event => {
+    event.preventDefault();
+
+    try {
+      const response = await api.post(`/support`, {
+        name: this.state.name,
+        email: this.state.email,
+        message: this.state.message,
+      });
+
+      console.log(response);
+    } catch (error) {
+      alert(
+        'Houve um erro no envio da sua mensagem. Tente novamente mais tarde.'
+      );
+    }
+  };
 
   render() {
     return (
@@ -86,21 +114,34 @@ export default class Contato extends Component {
                   </div>
                 </div>
                 <p>Mande uma mensagem, responderemos em breve!</p>
-                <Form>
+                <Form onSubmit={this.handleSubmit}>
                   <Row>
                     <Col md="12">
                       <FormGroup>
-                        <Input id="name" placeholder="Nome" type="text" />
+                        <Input
+                          id="name"
+                          name="name"
+                          placeholder="Nome"
+                          onChange={this.handleChange}
+                          type="text"
+                        />
                       </FormGroup>
                       <FormGroup>
-                        <Input id="email" placeholder="E-mail" type="email" />
+                        <Input
+                          id="email"
+                          name="email"
+                          placeholder="E-mail"
+                          onChange={this.handleChange}
+                          type="email"
+                        />
                       </FormGroup>
                       <FormGroup>
                         <Input
                           id="message"
+                          name="message"
                           placeholder="Mensagem"
+                          onChange={this.handleChange}
                           type="textarea"
-                          name="text"
                         />
                       </FormGroup>
                     </Col>
@@ -109,7 +150,7 @@ export default class Contato extends Component {
                     <Button
                       className="my-2"
                       color="primary"
-                      type="button"
+                      type="submit"
                       style={{ width: 150 }}
                     >
                       Enviar
