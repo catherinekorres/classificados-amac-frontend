@@ -20,7 +20,7 @@ export default function Introduction() {
               <div className="icon icon-lg icon-shape icon-shape-success shadow rounded-circle mb-5">
                 <i className="ni ni-shop" />
               </div>
-              <h4 className="display-3">Anuncie de graça</h4>
+              <h4 className="display-3">Anuncie grátis</h4>
               <p>
                 Somos uma plataforma voluntária com a intenção de servir a
                 população. Nossa missão é propiciar um ambiente em que os
