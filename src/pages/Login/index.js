@@ -1,21 +1,4 @@
-/*!
-
-=========================================================
-* Argon Design System React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-design-system-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-design-system-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from 'react';
+import React, { Component } from 'react';
 
 // reactstrap components
 import {
@@ -37,11 +20,57 @@ import {
 import CustomNavbar from '../../components/argon/CustomNavbar.js';
 import Footer from '../../components/argon/Footer.js';
 
-class Login extends React.Component {
+import api from '../../services/api';
+
+class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+      error: false,
+    };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
+  }
+
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.getLogin();
+    console.log(`${this.state.email}\n${this.state.password}`);
+  }
+
+  async getLogin() {
+    try {
+      const response = await api.get(`/users`);
+
+      const user = response.data.find(
+        user =>
+          user.email === this.state.email &&
+          user.password === this.state.password
+      );
+
+      if (user !== undefined) {
+        localStorage.setItem('user_id', user.id);
+        this.props.history.push('/');
+      }
+      this.setState({ error: true });
+    } catch (error) {
+      this.setState({ error: true });
+    }
   }
 
   render() {
@@ -71,7 +100,7 @@ class Login extends React.Component {
                       <div className="text-center text-muted mb-5">
                         <h4 className="font-weight-bold">Faça seu login</h4>
                       </div>
-                      <Form role="form">
+                      <Form onSubmit={this.handleSubmit} role="form">
                         <FormGroup className="mb-3">
                           <InputGroup className="input-group-alternative">
                             <InputGroupAddon addonType="prepend">
@@ -79,7 +108,13 @@ class Login extends React.Component {
                                 <i className="ni ni-email-83" />
                               </InputGroupText>
                             </InputGroupAddon>
-                            <Input placeholder="Email" type="email" />
+                            <Input
+                              placeholder="Email"
+                              type="email"
+                              name="email"
+                              value={this.state.email}
+                              onChange={this.handleChange}
+                            />
                           </InputGroup>
                         </FormGroup>
                         <FormGroup>
@@ -91,8 +126,11 @@ class Login extends React.Component {
                             </InputGroupAddon>
                             <Input
                               placeholder="Senha"
+                              name="password"
                               type="password"
                               autoComplete="off"
+                              value={this.state.password}
+                              onChange={this.handleChange}
                             />
                           </InputGroup>
                         </FormGroup>
@@ -113,11 +151,19 @@ class Login extends React.Component {
                           <Button
                             className="my-4 btn-block"
                             color="primary"
-                            type="button"
+                            type="submit"
                           >
                             Entrar
                           </Button>
                         </div>
+                        {this.state.error ? (
+                          <div className="alert alert-danger" role="alert">
+                            Houve um erro com o seu login. Cheque suas
+                            informações e tente novamente mais tarde.
+                          </div>
+                        ) : (
+                          ''
+                        )}
                       </Form>
                     </CardBody>
                   </Card>

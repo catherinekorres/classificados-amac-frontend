@@ -1,21 +1,4 @@
-/*!
-
-=========================================================
-* Argon Design System React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-design-system-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-design-system-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from 'react';
+import React, { Component } from 'react';
 
 // reactstrap components
 import {
@@ -37,11 +20,63 @@ import {
 import CustomNavbar from '../../components/argon/CustomNavbar.js';
 import Footer from '../../components/argon/Footer.js';
 
-class Cadastro extends React.Component {
+import api from '../../services/api';
+
+class Cadastro extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      email: '',
+      password: '',
+      phone: '',
+      street: '',
+      number: '',
+      whatsApp: '',
+      error: false,
+    };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
+  }
+
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.getSignup();
+    console.log(
+      `${this.state.email}\n${this.state.password}\n${this.state.name}`
+    );
+  }
+
+  async getSignup() {
+    try {
+      const response = await api.post(`/users`, {
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password,
+        phone: this.state.phone,
+        street: this.state.street,
+        number: this.state.number,
+        whatsApp: this.state.whatsApp,
+      });
+
+      alert('Cadastro efetuado com sucesso!');
+      this.props.history.push('/login');
+    } catch (error) {
+      this.setState({ error: true });
+    }
   }
 
   render() {
@@ -71,7 +106,7 @@ class Cadastro extends React.Component {
                       <div className="text-center text-muted mb-5">
                         <h4 className="font-weight-bold">Cadastre-se</h4>
                       </div>
-                      <Form role="form">
+                      <Form onSubmit={this.handleSubmit} role="form">
                         <FormGroup>
                           <InputGroup className="input-group-alternative mb-3">
                             <InputGroupAddon addonType="prepend">
@@ -79,7 +114,13 @@ class Cadastro extends React.Component {
                                 <i className="ni ni-hat-3" />
                               </InputGroupText>
                             </InputGroupAddon>
-                            <Input placeholder="Nome" type="text" />
+                            <Input
+                              placeholder="Nome"
+                              name="name"
+                              value={this.state.name}
+                              onChange={this.handleChange}
+                              type="text"
+                            />
                           </InputGroup>
                         </FormGroup>
                         <FormGroup>
@@ -89,7 +130,13 @@ class Cadastro extends React.Component {
                                 <i className="ni ni-email-83" />
                               </InputGroupText>
                             </InputGroupAddon>
-                            <Input placeholder="Email" type="email" />
+                            <Input
+                              placeholder="Email"
+                              name="email"
+                              value={this.state.email}
+                              onChange={this.handleChange}
+                              type="email"
+                            />
                           </InputGroup>
                         </FormGroup>
                         <FormGroup>
@@ -102,7 +149,88 @@ class Cadastro extends React.Component {
                             <Input
                               placeholder="Senha"
                               type="password"
+                              name="password"
+                              value={this.state.password}
+                              onChange={this.handleChange}
                               autoComplete="off"
+                            />
+                          </InputGroup>
+                        </FormGroup>
+                        <h5>Contato</h5>
+                        <FormGroup>
+                          <InputGroup className="input-group-alternative mb-3">
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText>
+                                <i
+                                  className="fa fa-mobile fa-2x"
+                                  aria-hidden="true"
+                                />
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            <Input
+                              placeholder="Telefone"
+                              name="phone"
+                              value={this.state.phone}
+                              onChange={this.handleChange}
+                              type="tel"
+                            />
+                          </InputGroup>
+                        </FormGroup>
+                        <FormGroup>
+                          <InputGroup className="input-group-alternative mb-3">
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText>
+                                <i
+                                  className="fa fa-whatsapp fa-lg"
+                                  aria-hidden="true"
+                                />
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            <Input
+                              placeholder="Whatsapp"
+                              name="whatsApp"
+                              value={this.state.whatsApp}
+                              onChange={this.handleChange}
+                              type="tel"
+                            />
+                          </InputGroup>
+                        </FormGroup>
+                        <h5>Endereço</h5>
+                        <FormGroup>
+                          <InputGroup className="input-group-alternative mb-3">
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText>
+                                <i
+                                  className="fa fa-map-marker fa-lg"
+                                  aria-hidden="true"
+                                />
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            <Input
+                              placeholder="Rua / Avenida"
+                              name="street"
+                              value={this.state.street}
+                              onChange={this.handleChange}
+                              type="text"
+                            />
+                          </InputGroup>
+                        </FormGroup>
+                        <FormGroup>
+                          <InputGroup className="input-group-alternative mb-3">
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText>
+                                <i
+                                  className="fa fa-map-marker fa-lg"
+                                  aria-hidden="true"
+                                />
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            <Input
+                              placeholder="Número"
+                              name="number"
+                              value={this.state.number}
+                              onChange={this.handleChange}
+                              type="text"
                             />
                           </InputGroup>
                         </FormGroup>
@@ -110,7 +238,7 @@ class Cadastro extends React.Component {
                           <Button
                             className="mt-4 btn-block"
                             color="primary"
-                            type="button"
+                            type="submit"
                           >
                             Criar conta
                           </Button>

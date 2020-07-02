@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Argon Design System React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-design-system-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-design-system-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from 'react';
 import { Link } from 'react-router-dom';
 // JavaScript plugin that hides or shows a component based on your scroll
@@ -23,12 +6,10 @@ import Headroom from 'headroom.js';
 import {
   Button,
   UncontrolledCollapse,
+  Dropdown,
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
-  UncontrolledDropdown,
-  Media,
-  NavbarBrand,
   Navbar,
   NavItem,
   NavLink,
@@ -39,19 +20,22 @@ import {
   UncontrolledTooltip,
 } from 'reactstrap';
 
-import Img1 from '../../assets/img/brand/argon-react-white.png';
-import Img2 from '../../assets/img/brand/argon-react.png';
-
 class CustomNavbar extends React.Component {
   state = {
     collapseClasses: '',
     collapseOpen: false,
+    login: false,
+    dropdownOpen: false,
   };
 
   componentDidMount() {
     const headroom = new Headroom(document.getElementById('navbar-main'));
     // // initialise
     headroom.init();
+
+    if (localStorage.getItem('user_id')) {
+      this.setState({ login: true });
+    }
   }
 
   onExiting = () => {
@@ -66,6 +50,17 @@ class CustomNavbar extends React.Component {
     });
   };
 
+  toggle = () => {
+    console.log(this.state.dropdownOpen);
+    this.setState(prevState => ({ dropdownOpen: !prevState.dropdownOpen }));
+  };
+
+  getLogout = () => {
+    localStorage.removeItem('user_id');
+    window.location.reload(false);
+    alert('Logout efetuado com sucesso.');
+  };
+
   render() {
     return (
       <>
@@ -77,9 +72,6 @@ class CustomNavbar extends React.Component {
             id="navbar-main"
           >
             <Container>
-              {/* <NavbarBrand className="mr-lg-5" to="/" tag={Link}>
-                <h2 className="text-white">Logo</h2>
-              </NavbarBrand> */}
               <button className="navbar-toggler" id="navbar_global">
                 <span className="navbar-toggler-icon" />
               </button>
@@ -94,7 +86,6 @@ class CustomNavbar extends React.Component {
                   <Row>
                     <Col className="collapse-brand" xs="6">
                       <Link to="/">
-                        {/* <img alt="..." src={Img2} /> */}
                         <h4 className="font-weight-bold">
                           Classificados de Cognópolis
                         </h4>
@@ -211,13 +202,37 @@ class CustomNavbar extends React.Component {
                     </UncontrolledTooltip>
                   </NavItem>
                   <NavItem className="d-none d-lg-block ml-lg-4">
-                    <Button
-                      className="btn-neutral btn-icon"
-                      color="default"
-                      href="/login"
-                    >
-                      <span className="nav-link-inner--text ml-1">Login</span>
-                    </Button>
+                    {this.state.login ? (
+                      <Dropdown
+                        isOpen={this.state.dropdownOpen}
+                        toggle={this.toggle}
+                        style={{ zIndex: 999 }}
+                      >
+                        <DropdownToggle
+                          tag="a"
+                          className="text-white bg-transparent"
+                          caret
+                        >
+                          <i className="fa fa-user-circle fa-lg" />
+                        </DropdownToggle>
+                        <DropdownMenu style={{ marginTop: 15 }}>
+                          <DropdownItem disabled>Perfil</DropdownItem>
+                          <DropdownItem>Cadastrar Produto/Serviço</DropdownItem>
+                          <DropdownItem divider />
+                          <DropdownItem onClick={this.getLogout}>
+                            Sair
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    ) : (
+                      <Button
+                        className="btn-neutral btn-icon"
+                        color="default"
+                        href="/login"
+                      >
+                        <span className="nav-link-inner--text ml-1">Login</span>
+                      </Button>
+                    )}
                   </NavItem>
                 </Nav>
               </UncontrolledCollapse>
