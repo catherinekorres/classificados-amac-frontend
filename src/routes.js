@@ -8,7 +8,8 @@ import Servicos from './pages/Servicos';
 import Servico from './pages/Servico';
 import Contato from './pages/Contato';
 import Login from './pages/Login';
-import Cadastro from './pages/Cadastro';
+import CadastroUsuario from './pages/CadastroUsuario';
+import CadastroItem from './pages/CadastroItem';
 import NotFound from './pages/NotFound';
 
 export default function Routes() {
@@ -22,7 +23,8 @@ export default function Routes() {
         <Route path="/servicos/:id" component={Servico} />
         <Route path="/contato" component={Contato} />
         <Route path="/login" component={Login} />
-        <Route path="/cadastro" component={Cadastro} />
+        <Route path="/cadastro" component={CadastroUsuario} />
+        <Route path="/cadastro-item" component={CadastroItem} />
         <Route path="/404" component={NotFound} />
         <Redirect to="/404" />
       </Switch>

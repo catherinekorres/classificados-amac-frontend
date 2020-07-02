@@ -22,7 +22,7 @@ import Footer from '../../components/argon/Footer.js';
 
 import api from '../../services/api';
 
-class Cadastro extends Component {
+class CadastroUsuario extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -71,6 +71,8 @@ class Cadastro extends Component {
         number: this.state.number,
         whatsApp: this.state.whatsApp,
       });
+
+      console.log(response);
 
       alert('Cadastro efetuado com sucesso!');
       this.props.history.push('/login');
@@ -257,4 +259,4 @@ class Cadastro extends Component {
   }
 }
 
-export default Cadastro;
+export default CadastroUsuario;

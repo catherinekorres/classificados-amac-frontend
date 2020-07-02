@@ -63,11 +63,13 @@ class Login extends Component {
           user.password === this.state.password
       );
 
+      this.setState({ error: false });
+
       if (user !== undefined) {
         localStorage.setItem('user_id', user.id);
+        localStorage.setItem('user_name', user.name);
         this.props.history.push('/');
       }
-      this.setState({ error: true });
     } catch (error) {
       this.setState({ error: true });
     }
@@ -169,6 +171,7 @@ class Login extends Component {
                   </Card>
                   <Row className="mt-3">
                     <Col xs="6">
+                      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                       <a
                         className="text-light"
                         href="#"

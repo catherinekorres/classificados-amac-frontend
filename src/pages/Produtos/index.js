@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
+// nodejs library that concatenates classes
+import classnames from 'classnames';
 
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+
+import {
+  FormGroup,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+} from 'reactstrap';
 
 import Hero from '../../components/argon/Hero';
 import CustomNavbar from '../../components/argon/CustomNavbar';
@@ -22,8 +32,10 @@ export default class Produtos extends Component {
       currentPage: 0,
       totalPages: null,
       error: false,
+      search: '',
     };
     this.myRef = React.createRef();
+    this.handleChange = this.handleChange.bind(this);
   }
 
   async componentDidMount() {
@@ -38,6 +50,13 @@ export default class Produtos extends Component {
       this.getProducts(this.state.currentPage);
       window.scrollTo(0, this.myRef.current.offsetTop);
     }
+  }
+
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+    console.log(this.state.search);
   }
 
   getProducts = async page => {
@@ -86,6 +105,48 @@ export default class Produtos extends Component {
               </Col>
             </Row>
           </Container>
+
+          <div className="py-4 bg-secondary d-flex align-items-center">
+            <Container>
+              <Row>
+                <Col md="6" sm="12">
+                  <Form className="d-flex align-items-center">
+                    <FormGroup
+                      className={classnames(
+                        {
+                          focused: this.state.searchAltFocused,
+                        },
+                        'flex-grow-1'
+                      )}
+                      style={{ marginBottom: 0 }}
+                    >
+                      <InputGroup className="input-group-alternative">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="ni ni-zoom-split-in" />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          placeholder="Nome do produto"
+                          type="text"
+                          name="search"
+                          value={this.state.search}
+                          onChange={this.handleChange}
+                          onFocus={e =>
+                            this.setState({ searchAltFocused: true })
+                          }
+                          onBlur={e =>
+                            this.setState({ searchAltFocused: false })
+                          }
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                    <Button type="submit">Buscar</Button>
+                  </Form>
+                </Col>
+              </Row>
+            </Container>
+          </div>
 
           <Container>
             <Row>

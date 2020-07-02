@@ -18,10 +18,6 @@ import Footer from '../../components/argon/Footer';
 import api from '../../services/api';
 
 export default class Contato extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   async componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;

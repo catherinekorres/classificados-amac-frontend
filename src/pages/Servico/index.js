@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
 import Hero from '../../components/argon/Hero';
 import CustomNavbar from '../../components/argon/CustomNavbar';
@@ -17,6 +17,8 @@ export default class Servico extends Component {
       seller: {},
       error: false,
     };
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
   async componentDidMount() {
@@ -26,6 +28,26 @@ export default class Servico extends Component {
 
     this.getService(this.state.id);
   }
+
+  handleClick() {
+    this.deleteService(this.state.id);
+  }
+
+  deleteService = async id => {
+    try {
+      const response = await api.delete(`/services/${id}`);
+
+      console.log(response);
+
+      alert('Serviço deletado com sucesso!');
+      this.props.history.push('/servicos');
+    } catch (error) {
+      alert(
+        'Não foi possível deletar seu serviço. Tente novamente mais tarde.'
+      );
+      this.setState({ error: true });
+    }
+  };
 
   getService = async id => {
     try {
@@ -66,6 +88,22 @@ export default class Servico extends Component {
               </div>
             ) : (
               <Row className="my-5 pb-5">
+                <Col md="12">
+                  {/* eslint-disable-next-line eqeqeq */}
+                  {seller.id == localStorage.getItem('user_id') ? (
+                    <div
+                      className="alert bg-secondary d-flex justify-content-between align-items-center"
+                      role="alert"
+                    >
+                      <h6>Este produto é seu!</h6>
+                      <Button onClick={this.handleClick}>
+                        Deletar produto
+                      </Button>
+                    </div>
+                  ) : (
+                    ''
+                  )}
+                </Col>
                 <Col md="7" className="pr-4">
                   <h2 className="display-2">{service.name}</h2>
                   <h4 className="text-success font-weight-bold">

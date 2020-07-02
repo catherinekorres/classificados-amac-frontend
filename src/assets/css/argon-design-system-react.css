@@ -12254,7 +12254,7 @@ a.btn-icon-only {
 .dropdown-menu {
   min-width: 12rem; }
   .dropdown-menu .dropdown-item {
-    padding: 1rem;
+    padding: .5rem 1rem;
     font-size: 0.875rem; }
     .dropdown-menu .dropdown-item > i,
     .dropdown-menu .dropdown-item > svg {
