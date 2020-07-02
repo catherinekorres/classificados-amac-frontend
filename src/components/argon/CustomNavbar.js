@@ -213,11 +213,16 @@ class CustomNavbar extends React.Component {
                           className="text-white bg-transparent"
                           caret
                         >
-                          <i className="fa fa-user-circle fa-lg" />
+                          <i className="fa fa-user-circle fa-lg pr-2" />{' '}
+                          {localStorage.getItem('user_name')}
                         </DropdownToggle>
                         <DropdownMenu style={{ marginTop: 15 }}>
                           <DropdownItem disabled>Perfil</DropdownItem>
-                          <DropdownItem>Cadastrar Produto/Serviço</DropdownItem>
+                          <DropdownItem>
+                            <Link to="/cadastro-item">
+                              Cadastrar Produto/Serviço
+                            </Link>
+                          </DropdownItem>
                           <DropdownItem divider />
                           <DropdownItem onClick={this.getLogout}>
                             Sair

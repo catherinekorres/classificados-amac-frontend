@@ -18,10 +18,6 @@ import Footer from '../../components/argon/Footer';
 import api from '../../services/api';
 
 export default class Contato extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   async componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
@@ -43,6 +39,8 @@ export default class Contato extends Component {
         email: this.state.email,
         message: this.state.message,
       });
+
+      alert('Sua mensagem foi enviada com sucesso!');
 
       console.log(response);
     } catch (error) {
